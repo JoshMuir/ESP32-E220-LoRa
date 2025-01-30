@@ -43,6 +43,13 @@ enum AirDataRate {
     AIR_62500 = 0b101
 };
 
+enum modes_t {
+    Transmission_Mode = 0b00,
+    WOR_Transmit_Mode = 0b01,
+    WOR_Receive_Mode = 0b10,
+    Config_Mode = 0b11
+}
+
 class E220Module {
 private:
     SoftwareSerial& serial;
@@ -71,6 +78,11 @@ public:
         serial(ser), m0Pin(m0), m1Pin(m1) {
         pinMode(m0Pin, OUTPUT);
         pinMode(m1Pin, OUTPUT);
+    }
+
+    void setMode(modes_t mode) {
+        digitalWrite(m0Pin, mode & 0x01);
+        digitalWrite(m1Pin, mode & 0x02);
     }
 
     // Address configuration
@@ -125,7 +137,8 @@ public:
 
     // Helper methods
     void configureDefault() {
-        setAddress(0x0000);
+        setMode(Config_Mode);
+        setAddress(0x1234);
         setUARTConfig(UART_9600, PARITY_8N1, AIR_2400);
         setRSSIAmbientNoise(false);
     }
