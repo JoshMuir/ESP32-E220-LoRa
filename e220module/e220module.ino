@@ -1,5 +1,11 @@
 #include <SoftwareSerial.h>
 
+#define BROADCAST_ADDRESS 0xFFFF
+#define MONITOR_ADDRESS 0x0000
+
+//#define READER
+// #define TRANSMITTER
+
 // Constants
 static const uint8_t MIN_CHANNEL = 0;
 static const uint8_t MAX_CHANNEL = 80;
@@ -141,5 +147,41 @@ public:
         setAddress(0x1234);
         setUARTConfig(UART_9600, PARITY_8N1, AIR_2400);
         setRSSIAmbientNoise(false);
+        setChannel(4);
+        setMode(Transmission_Mode);
     }
+
+
 };
+
+
+// Create SoftwareSerial instance
+SoftwareSerial mySerial(10, 11); // RX, TX pins
+
+// Create E220Module instance
+E220Module radio(mySerial, 2, 3); // Serial, M0 pin, M1 pin
+
+void setup() {
+  // Initialize serial communication
+  Serial.begin(9600);
+  mySerial.begin(9600);
+  
+  // Use default configuration
+  radio.configureDefault();
+}
+
+void loop()
+{
+#ifdef READER
+    delay(500);
+    if(mySerial.available()) {
+        char* c = mySerial.read();
+        Serial.print(c);
+    }
+#endif
+#ifdef TRANSMITTER
+    delay(10000);
+    mySerial.write("Hello, World!");
+#endif
+
+}

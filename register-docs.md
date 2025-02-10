@@ -115,6 +115,12 @@
    - When set to 0xFFFF, acts as broadcast/monitor address
    - Module will not perform address filtering in this mode
 
+2. **Channel Configuration**:
+Actual frequency = 850.125 + CH *1MHz
+   - Channels are spaced 1MHz apart
+   - Valid range is 0-80 (total of 81 channels)
+   - Default channel is 0 (433.125 MHz)
+
 2. **UART Configuration**:
    - Communicating modules can have different baud rates
    - Recommended to use same baud rate for both parties

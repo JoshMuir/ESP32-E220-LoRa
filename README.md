@@ -117,6 +117,18 @@ void loop() {
 }
 ```
 
+#### Sending data globally 
+```cpp
+// Send data to address 0x1234
+radio.setMode(Config_Mode);
+radio.setAddress(BROADCAST_ADDRESS);
+// radio.setChannel(etc);  // optional if channel is not set 
+radio.setMode(Transmit_Mode);
+
+mySerial.print("Hello, World!");
+```
+
+
 ### Configuration Options
 
 #### UART Baud Rates
@@ -141,3 +153,4 @@ void loop() {
 - `AIR_19200`: 19.2k bps
 - `AIR_38400`: 38.4k bps
 - `AIR_62500`: 62.5k bps
+
